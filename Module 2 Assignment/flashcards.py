@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, simpledialog
 import csv
 import os
+from PIL import Image, ImageTk
 
 
 class FlashcardApp:
@@ -9,17 +10,25 @@ class FlashcardApp:
         self.root = root
         self.root.title("Flashcard App") #window title
         self.root.geometry("800x600")  #window size
-        self.root.configure(bg='#008fff')  #background color
+        self.root.configure(bg='white')  #background color
         self.file_name = 'flashcards.csv'  #csv filename
         self.create_widgets() #create widgets
         self.load_image() #loads image
+        self.load_image1()  #loads image
+    
+    def load_image(self):
+        image = Image.open('NewLogo.png')  #opens image
+        resized = image.resize((200, 200))  #resizes image
+        self.newimage = ImageTk.PhotoImage(resized)
+        self.label = tk.Label(self.root, image=self.newimage)  #displays new resized image
+        self.label.place(x=30, y=30)
 
-    def load_image(self): 
-        self.image = tk.PhotoImage(file='logo1.png')
-        width, height = tk.PhotoImage.width(), tk.PhotoImage.height()
-        self.label = tk.Label(root, bg="blue", width=width, height=height, image=self.image)
-        self.label.pack(pady=10)
-        
+    def load_image1(self):
+        image1= Image.open('NewLogo1.png')  #opens image
+        resized1 = image1.resize((200, 200))
+        self.newimage1 = ImageTk.PhotoImage(resized1)
+        self.label1 = tk.Label(self.root, image=self.newimage1)
+        self.label1.place(x=570, y=30)
 
     def create_widgets(self): # creates GUI widgets
         buttons = [
@@ -29,8 +38,8 @@ class FlashcardApp:
             ("Quit", self.root.quit)  #button to quit
         ]
         for text, command in buttons:
-            button = tk.Button(self.root, text=text, command=command)  #creates buttons
-            button.pack(pady=10)
+            button = tk.Button(self.root, text=text, command=command)  #creates buttons 
+            button.pack(pady=30)  #adds padding between buttons
 
     def add_flashcard(self):  #adds flashcard to csv file
         question = simpledialog.askstring("Input", "Enter the question:")  #asks user to enter question
@@ -76,3 +85,4 @@ if __name__ == "__main__":  #runs the app
     root = tk.Tk()  #creates window
     app = FlashcardApp(root)  #creates app
     root.mainloop()  #runs app
+
