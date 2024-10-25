@@ -54,13 +54,3 @@ def print_list(arr):
         print(i, end=" ")
     print()
 
-# Driver code
-if __name__ == "__main__":
-    arr = [12, 11, 13, 5, 6, 7]
-    print("Given array is")
-    print_list(arr)
-
-    merge_sort(arr, 0, len(arr) - 1)
-
-    print("\nSorted array is")
-    print_list(arr)

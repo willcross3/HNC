@@ -15,7 +15,6 @@ class FlashcardApp:
         self.create_widgets() #create widgets
         self.load_image() #loads image
         self.load_image1()  #loads image
-    
     def load_image(self):
         image = Image.open('NewLogo.png')  #opens image
         resized = image.resize((200, 200))  #resizes image
@@ -38,7 +37,7 @@ class FlashcardApp:
             ("Quit", self.root.quit)  #button to quit
         ]
         for text, command in buttons:
-            button = tk.Button(self.root, text=text, command=command)  #creates buttons 
+            button = tk.Button(self.root, text=text, command=command)  #creates buttons
             button.pack(pady=30)  #adds padding between buttons
 
     def add_flashcard(self):  #adds flashcard to csv file
@@ -75,7 +74,7 @@ class FlashcardApp:
             if len(remaining) < len(flashcards):  #checks if flashcard was deleted
                 with open(self.file_name, mode='w', newline='') as file:
                     writer = csv.writer(file)  #writes remaining flashcards to csv file
-                    writer.writerow(header)  
+                    writer.writerow(header) 
                     writer.writerows(remaining)
                 messagebox.showinfo("Success", "Flashcard deleted!")
             else:
@@ -85,4 +84,3 @@ if __name__ == "__main__":  #runs the app
     root = tk.Tk()  #creates window
     app = FlashcardApp(root)  #creates app
     root.mainloop()  #runs app
-

@@ -1,6 +1,6 @@
 import csv
 
-filename = #enter file name
+filename = 'data.csv'
 
 fields = []
 rows = []
@@ -31,7 +31,7 @@ for row in rows[:5]:
 
 
 
-with open("#enter file name", 'r') as file:
+with open("data.csv", 'r') as file:
     reader = csv.reader(file)
     for row in reader:
         print(row)

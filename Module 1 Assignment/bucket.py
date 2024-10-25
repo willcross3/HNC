@@ -27,7 +27,4 @@ def bucket_sort(arr):
             arr[index] = num
             index += 1
 
-arr = [0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434]
-bucket_sort(arr)
-print("Sorted array is:")
-print(" ".join(map(str, arr)))
+
