@@ -1,4 +1,4 @@
-def insertion_sort(bucket):
+def insertion(bucket):
     for i in range(1, len(bucket)):
         key = bucket[i]
         j = i - 1
@@ -7,7 +7,7 @@ def insertion_sort(bucket):
             j -= 1
         bucket[j + 1] = key
 
-def bucket_sort(arr):
+def bucket(arr):
     n = len(arr)
     buckets = [[] for _ in range(n)]
 
@@ -18,7 +18,7 @@ def bucket_sort(arr):
 
     # Sort individual buckets using insertion sort
     for bucket in buckets:
-        insertion_sort(bucket)
+        insertion(bucket)
 
     # Concatenate all buckets into arr[]
     index = 0

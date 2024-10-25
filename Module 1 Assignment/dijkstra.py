@@ -1,63 +1,81 @@
-# Dijkstra's Algorithm in Python
+# Python program for Dijkstra's single
+# source shortest path algorithm. The program is
+# for adjacency matrix representation of the graph
+class Graph():
 
+	def __init__(self, vertices):
+		self.V = vertices
+		self.graph = [[0 for column in range(vertices)]
+					for row in range(vertices)]
 
-import sys
+	def printSolution(self, dist):
+		print("Vertex \t Distance from Source")
+		for node in range(self.V):
+			print(node, "\t\t", dist[node])
 
-# Providing the graph
-vertices = [[0, 0, 1, 1, 0, 0, 0],
-            [0, 0, 1, 0, 0, 1, 0],
-            [1, 1, 0, 1, 1, 0, 0],
-            [1, 0, 1, 0, 0, 0, 1],
-            [0, 0, 1, 0, 0, 1, 0],
-            [0, 1, 0, 0, 1, 0, 1],
-            [0, 0, 0, 1, 0, 1, 0]]
+	# A utility function to find the vertex with
+	# minimum distance value, from the set of vertices
+	# not yet included in shortest path tree
+	def minDistance(self, dist, sptSet):
 
-edges = [[0, 0, 1, 2, 0, 0, 0],
-         [0, 0, 2, 0, 0, 3, 0],
-         [1, 2, 0, 1, 3, 0, 0],
-         [2, 0, 1, 0, 0, 0, 1],
-         [0, 0, 3, 0, 0, 2, 0],
-         [0, 3, 0, 0, 2, 0, 1],
-         [0, 0, 0, 1, 0, 1, 0]]
+		# Initialize minimum distance for next node
+		min = 1e7
 
-# Find which vertex is to be visited next
-def to_be_visited():
-    global visited_and_distance
-    v = -10
-    for index in range(num_of_vertices):
-        if visited_and_distance[index][0] == 0 \
-            and (v < 0 or visited_and_distance[index][1] <=
-                 visited_and_distance[v][1]):
-            v = index
-    return v
+		# Search not nearest vertex not in the
+		# shortest path tree
+		for v in range(self.V):
+			if dist[v] < min and sptSet[v] == False:
+				min = dist[v]
+				min_index = v
 
+		return min_index
 
-num_of_vertices = len(vertices[0])
+	# Function that implements Dijkstra's single source
+	# shortest path algorithm for a graph represented
+	# using adjacency matrix representation
+	def dijkstra(self, src):
 
-visited_and_distance = [[0, 0]]
-for i in range(num_of_vertices-1):
-    visited_and_distance.append([0, sys.maxsize])
+		dist = [1e7] * self.V
+		dist[src] = 0
+		sptSet = [False] * self.V
 
-for vertex in range(num_of_vertices):
+		for cout in range(self.V):
 
-    # Find next vertex to be visited
-    to_visit = to_be_visited()
-    for neighbor_index in range(num_of_vertices):
+			# Pick the minimum distance vertex from
+			# the set of vertices not yet processed.
+			# u is always equal to src in first iteration
+			u = self.minDistance(dist, sptSet)
 
-        # Updating new distances
-        if vertices[to_visit][neighbor_index] == 1 and \
-                visited_and_distance[neighbor_index][0] == 0:
-            new_distance = visited_and_distance[to_visit][1] \
-                + edges[to_visit][neighbor_index]
-            if visited_and_distance[neighbor_index][1] > new_distance:
-                visited_and_distance[neighbor_index][1] = new_distance
-        
-        visited_and_distance[to_visit][0] = 1
+			# Put the minimum distance vertex in the
+			# shortest path tree
+			sptSet[u] = True
 
-i = 0
+			# Update dist value of the adjacent vertices
+			# of the picked vertex only if the current
+			# distance is greater than new distance and
+			# the vertex in not in the shortest path tree
+			for v in range(self.V):
+				if (self.graph[u][v] > 0 and
+				sptSet[v] == False and
+				dist[v] > dist[u] + self.graph[u][v]):
+					dist[v] = dist[u] + self.graph[u][v]
 
-# Printing the distance
-for distance in visited_and_distance:
-    print("Distance of ", chr(ord('a') + i),
-          " from source vertex: ", distance[1])
-    i = i + 1
+		self.printSolution(dist)
+
+# Driver program
+g = Graph(10)
+g.graph = [[0, 2, 0, 4, 1, 0, 7, 1, 8, 2],
+		[2, 0, 0, 4, 0, 0, 3, 5, 3, 3],
+		[0, 0, 0, 3, 11, 5, 0, 1, 9, 0],
+		[4, 4, 3, 0, 0, 0, 5, 3, 2, 1],
+		[1, 0, 11, 0, 0, 3, 2, 5, 0, 4],
+		[0, 0, 5, 0, 3, 0, 4, 6, 3, 0],
+		[7, 3, 0, 5, 2, 4, 0, 0, 2, 4],
+		[1, 5, 1, 3, 5, 6, 0, 0, 0, 0],
+		[8, 3, 9, 2, 0, 3, 2, 0, 0, 5],
+		[2, 3, 0, 1, 4, 0, 4, 0, 5, 0]
+		]
+
+g.dijkstra(0)
+
+# This code is contributed by Divyanshu Mehta
